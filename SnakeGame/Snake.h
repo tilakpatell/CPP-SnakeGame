@@ -5,6 +5,7 @@
 #include <string>
 #include <deque>
 #include <memory>
+#include "Gameconfig.h"
 
 enum class Direction {
 	UP,
@@ -20,12 +21,12 @@ struct Vector2Int {
 
 class Snake {
 private:
-	std::deque<Vector2Int> body;
-	int cellSize;
-	Direction direction;
+	std::deque<Vector2Int> snake_body;
+	Direction current_direction = Direction::UP;
+	GameConfig gameConfig;
 
 public:
-	Snake();
+	Snake(const GameConfig& gameConfig);
 
 	void draw();
 
@@ -33,7 +34,7 @@ public:
 
 	void grow();
 
-	bool checkBoundaryCollision(int screenWidth, int screenHeight);
+	bool checkBoundaryCollision();
 
 };
 

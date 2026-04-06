@@ -1,31 +1,24 @@
-﻿// SnakeGame.cpp : Defines the entry point for the application.
-//
-
+﻿
 #include "SnakeGame.h"
-#include "raylib.h"
-#include <iostream>
-#include "Grid.h"
-#include "Snake.h"
-
-
-constexpr int screenWidth = 800;
-constexpr int screenHeight = 600;
-constexpr int cellSize = 20;
 
 int main()
 {
 	std::cout << "Starting Snake Game..." << std::endl;
 
+	GameConfig gameConfig;
+	int screenWidth = gameConfig.getScreenWidth();
+	int screenHeight = gameConfig.getScreenHeight();
+
 	InitWindow(screenWidth, screenHeight, "Snake Game");
 	SetTargetFPS(60);
 	float timer = 0.15f;
 
-	Snake snake;
-	Grid grid(screenWidth, screenHeight, cellSize, BLACK);
+	Snake snake(gameConfig);
+	Grid grid(gameConfig);
 
 	while (WindowShouldClose() == false) {
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
+		ClearBackground(gameConfig.getBackgroundColor());
 		grid.drawGrid();
 		snake.draw();
 		timer -= GetFrameTime();

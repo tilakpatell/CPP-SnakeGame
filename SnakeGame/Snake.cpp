@@ -1,44 +1,48 @@
 #include "Snake.h"
 
-Snake::Snake() : cellSize(20), direction(Direction::RIGHT) {
-	body.push_back({ 20, 15 }); // Initial position of the snake's head
+Snake::Snake(const GameConfig& gameConfig) : gameConfig(gameConfig) {
+	snake_body.push_back({ 10, 10 }); // center of the grid
 }
 
 void Snake::draw() {
-	for (const auto& segment : body) {
-		DrawRectangle(segment.x * cellSize, segment.y * cellSize, cellSize, cellSize, GREEN);
+	int cellSize = gameConfig.getCellSize();
+	Color snake_color = gameConfig.getSnakeColor();
+	for (const auto& segment : snake_body) {
+		DrawRectangle(segment.x * cellSize, segment.y * cellSize, cellSize, cellSize, snake_color);
 	}
 }
 
 void Snake::grow() {
-	body.push_back(body.back());
+	snake_body.push_back(snake_body.back());
 }
 
 void Snake::move(Direction direction) {
-	// Move the body segments
-	for (size_t i = body.size() - 1; i > 0; --i) {
-		body[i] = body[i - 1];
+
+	current_direction = direction;
+	// Move the snake_body segments
+	for (size_t i = snake_body.size() - 1; i > 0; --i) {
+		snake_body[i] = snake_body[i - 1];
 	}
 	// Move the head
 	switch (direction) {
 	case Direction::UP:
-		body[0].y -= 1;
+		snake_body[0].y -= 1;
 		break;
 	case Direction::DOWN:
-		body[0].y += 1;
+		snake_body[0].y += 1;
 		break;
 	case Direction::LEFT:
-		body[0].x -= 1;
+		snake_body[0].x -= 1;
 		break;
 	case Direction::RIGHT:
-		body[0].x += 1;
+		snake_body[0].x += 1;
 		break;
 	}
 }
 
-bool Snake::checkBoundaryCollision(int screenWidth, int screenHeight) {
-	int maxCols = screenWidth / cellSize;
-	int maxRows = screenHeight / cellSize;
-	const Vector2Int head = body[0];
+bool Snake::checkBoundaryCollision() {
+	int maxCols = gameConfig.getCols();
+	int maxRows = gameConfig.getRows();
+	const Vector2Int head = snake_body[0];
 	return head.x < 0 || head.x >= maxCols || head.y < 0 || head.y >= maxRows;
 }

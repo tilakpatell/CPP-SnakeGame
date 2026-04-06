@@ -2,19 +2,12 @@
 
 #include "raylib.h"
 #include <iostream>
+#include "GameConfig.h"
 
 class Grid {
 private:
-	int cols;
-	int rows;
-	int cellSize;
-	Color color;
-
+	GameConfig gameConfig;
 public:
-	Grid(int screenWidth, int screenHeight, int cellSize, Color color = DARKGRAY);
-
+	Grid(const GameConfig& gameConfig);
 	void drawGrid();
-
-
-
 };
