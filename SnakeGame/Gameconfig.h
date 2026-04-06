@@ -3,6 +3,11 @@
 #include <iostream>
 #include "raylib.h"
 
+struct Vector2Int {
+	int x;
+	int y;
+};
+
 class GameConfig {
 public:
 	GameConfig(int screenWidth = 1000, int screenHeight = 1000, int cellSize = 50,

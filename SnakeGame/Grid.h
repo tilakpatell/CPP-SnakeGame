@@ -1,13 +1,16 @@
 #pragma once
 
 #include "raylib.h"
-#include <iostream>
 #include "GameConfig.h"
 
 class Grid {
 private:
-	GameConfig gameConfig;
+    GameConfig gameConfig;
+    Texture2D lightTexture = {};
+    Texture2D darkTexture = {};
 public:
-	Grid(const GameConfig& gameConfig);
-	void drawGrid();
+    Grid(const GameConfig& gameConfig);
+    void loadTextures(const char* lightFile, const char* darkFile);
+    void drawGrid();
+    void unloadTextures();
 };

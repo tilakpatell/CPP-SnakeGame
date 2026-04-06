@@ -1,44 +1,38 @@
 #pragma once
 
-#include <iostream>
-#include "raylib.h"
-#include <string>
 #include <deque>
-#include <memory>
+#include "raylib.h"
 #include "Gameconfig.h"
 #include "EventBus.h"
+#include "SpriteSheet.h"
 
 enum class Direction {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 };
-
-struct Vector2Int {
-	int x;
-	int y;
-};	
 
 class Snake {
 private:
-	GameConfig gameConfig;
-	EventBus& bus;
-	std::deque<Vector2Int> snake_body;
-	Direction current_direction = Direction::UP;
+    GameConfig gameConfig;
+    EventBus& bus;
+    std::deque<Vector2Int> snake_body;
+    Direction current_direction = Direction::UP;
+    const SnakeTextures* textures = nullptr;
+
+    void drawHead(int cellSize);
+    void drawTail(int cellSize);
+    void drawBody(size_t index, int cellSize);
 
 public:
-	Snake(const GameConfig& gameConfig, EventBus& bus);
+    Snake(const GameConfig& gameConfig, EventBus& bus);
 
-	void draw();
+    void setTextures(const SnakeTextures* tex);
+    void draw();
+    void move();
+    void grow();
 
-	void move();
-
-	void grow();
-
-	bool checkBoundaryCollision();
-
+    const Vector2Int& getHeadPosition() const;
+    const std::deque<Vector2Int>& getBody() const;
 };
-
-
-
