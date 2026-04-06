@@ -6,6 +6,7 @@
 #include <deque>
 #include <memory>
 #include "Gameconfig.h"
+#include "EventBus.h"
 
 enum class Direction {
 	UP,
@@ -21,16 +22,17 @@ struct Vector2Int {
 
 class Snake {
 private:
+	GameConfig gameConfig;
+	EventBus& bus;
 	std::deque<Vector2Int> snake_body;
 	Direction current_direction = Direction::UP;
-	GameConfig gameConfig;
 
 public:
-	Snake(const GameConfig& gameConfig);
+	Snake(const GameConfig& gameConfig, EventBus& bus);
 
 	void draw();
 
-	void move(Direction direction);
+	void move();
 
 	void grow();
 
